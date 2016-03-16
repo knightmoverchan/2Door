@@ -1,0 +1,14 @@
+ public function roads()
+    {   
+        $area = Auth::user()->area;
+        $branch = Auth::user()->branch;
+        $id = Input::get('btn');
+        $assarea = Input::get('assignedarea');
+        $track = Track::where('messenger_id', $id)->get();
+        $pictures = Messenger::where('id', $id)->get();
+        $messengers = User::where('userid', $id)->where('user_type', '=', 'Messenger')->get();
+        $transactions = Transaction::where('area', $area)->where('branch', $branch)->where('assign', $assarea)->where('status', '=', 'Delivered' )->orderBy('updated_at', 'asc')->get();
+        $alltransactions = Transaction::where('area', $area)->where('branch', $branch)->where('assign', $assarea)->get();
+
+      return view('pages.radius', compact('transactions', 'messengers', 'pictures', 'track', 'alltransactions'));   
+   }
